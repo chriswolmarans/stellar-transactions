@@ -1,3 +1,4 @@
+/* Default button style */
 .btn-default {
   @apply px-10 py-3 rounded bg-orange-600 text-white text-xs mr-3 font-semibold;
   transition: 200ms;
@@ -5,13 +6,14 @@
     @apply bg-orange-500;
   }
   &.disabled {
-    @apply bg-gray-700 text-gray-500 cursor-default;
+    @apply bg-gray-600 text-gray-400 cursor-default ;
   }
   &.cancel {
     @apply bg-red-600;
   }
 }
 
+/* Default forms style */
 .form-label {
   @apply text-gray-800 uppercase font-bold text-xs font-sans;
   font-family: Verdana, Arial, sans-serif;
@@ -19,3 +21,8 @@
 .custom-form-input {
   @apply mt-1 block border-0 border-b text-xs;
 }
+
+
+
+
+

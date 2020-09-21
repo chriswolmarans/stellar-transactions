@@ -6,17 +6,27 @@
 
 @import 'tailwindcss/utilities';
 
-
+/* Base Styles */
 @layer base {
 
   h1 {
-    @apply text-gray-900 font-sans text-3xl font-semibold;
+    @apply text-gray-900 font-sans text-xl font-semibold;
     font-family: Trebuchet MS, Helvetica, Verdana, Arial, sans-serif;
+  }
+
+  @screen md {
+    h1 {
+      @apply text-3xl;
+    }
+  }
+  @screen lg {
+    h1 {
+      @apply text-3xl;
+    }
   }
 
   body {
     font-family: Trebuchet MS, Helvetica, Verdana, Arial, sans-serif;
-    @apply text-sm;
   }
 
 }

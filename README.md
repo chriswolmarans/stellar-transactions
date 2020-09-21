@@ -12,6 +12,8 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
+Run `build:prod` to set `NODE_ENV=production` to remove unused styles by Tailwind and kick off a `ng build --prod` build for production.
+
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ## Running unit tests

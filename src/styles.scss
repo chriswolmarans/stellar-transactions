@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss/base';
+
+@import 'tailwindcss/components';
+@import './styles/app-components.scss';
+
+@import 'tailwindcss/utilities';
+
+
+@layer base {
+
+  h1 {
+    @apply text-gray-900 font-sans text-3xl font-semibold;
+    font-family: Trebuchet MS, Helvetica, Verdana, Arial, sans-serif;
+  }
+
+  body {
+    font-family: Trebuchet MS, Helvetica, Verdana, Arial, sans-serif;
+    @apply text-sm;
+  }
+
+}

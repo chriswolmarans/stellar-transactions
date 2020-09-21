@@ -1,0 +1,21 @@
+.btn-default {
+  @apply px-10 py-3 rounded bg-orange-600 text-white text-xs mr-3 font-semibold;
+  transition: 200ms;
+  &:hover {
+    @apply bg-orange-500;
+  }
+  &.disabled {
+    @apply bg-gray-700 text-gray-500 cursor-default;
+  }
+  &.cancel {
+    @apply bg-red-600;
+  }
+}
+
+.form-label {
+  @apply text-gray-800 uppercase font-bold text-xs font-sans;
+  font-family: Verdana, Arial, sans-serif;
+}
+.custom-form-input {
+  @apply mt-1 block border-0 border-b text-xs;
+}

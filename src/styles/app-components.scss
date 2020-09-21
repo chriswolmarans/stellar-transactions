@@ -13,6 +13,38 @@
   }
 }
 
+/* button group styles */
+
+.btn {
+  @apply relative inline-flex items-center px-4 border border-gray-500 bg-transparent;
+  @apply w-full;
+  @apply leading-5 font-semibold uppercase text-xs;
+}
+
+.btn:hover {
+  @apply text-gray-700;
+}
+
+.btn:focus {
+  @apply z-10 outline-none border-gray-900;
+}
+
+.btn:active {
+  @apply bg-gray-100 text-gray-500;
+}
+
+.btn-group {
+  @apply relative z-0 inline-flex;
+}
+
+.btn-group > .btn:not(:first-child) {
+  @apply rounded-l-none -ml-px;
+}
+
+.btn-group > .btn:not(:last-child) {
+  @apply rounded-r-none;
+}
+
 /* Default forms style */
 .form-label {
   @apply text-gray-800 uppercase font-bold text-xs font-sans;

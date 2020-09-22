@@ -9,7 +9,9 @@ import {TransactionService} from '../../services/transaction.service';
 })
 export class TransactionsComponent implements OnInit {
   transactions: Transaction[];
-  searchTerms = '';
+  filteredTransactions: Transaction[];
+  sortType: string;
+  sortReverse = false;
   // temp placeholder
   transaction: Transaction = {
     account: 'Free Checking(4692)',
@@ -22,17 +24,58 @@ export class TransactionsComponent implements OnInit {
 
   constructor(private transactionService: TransactionService) {
   }
+
   ngOnInit(): void {
     this.getTransactions();
   }
 
-  clearSearchTerm(): void {
-    this.searchTerms = '';
+  sortTransactions(property) {
+    this.sortType = property;
+    this.sortReverse = !this.sortReverse;
+    this.transactions = this.transactions || [];
+    this.filteredTransactions.sort(this.dynamicSort(property));
+  }
+
+  dynamicSort(property) {
+    let sortOrder = -1;
+
+    if (this.sortReverse) {
+      sortOrder = 1;
+    }
+
+    return (a, b) => {
+      const result =
+        a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+
+      return result * sortOrder;
+    };
+  }
+
+  filterTransactions(searchTerms: string) {
+    if (!searchTerms) {
+      this.filteredTransactions = this.transactions;
+      this.sortTransactions('date');
+    }
+    searchTerms = searchTerms.trim().toLocaleLowerCase();
+    this.filteredTransactions = this.transactions
+      .filter((item) => {
+        // get short month e.g Nov with date[1]
+        const date = new Date(item.date).toString().split(' ');
+        return item.beneficiary.toLocaleLowerCase().indexOf(searchTerms) > -1
+          || item.amount.toString().toLocaleLowerCase().indexOf(searchTerms) > -1
+          || new Date(item.date).getDate().toString().toLocaleLowerCase().indexOf(searchTerms) > -1
+          || date[1].toString().toLocaleLowerCase().indexOf(searchTerms) > -1
+          ;
+      });
   }
 
   getTransactions(): void {
     this.transactionService.getTransactions()
-      .subscribe(transactions => this.transactions = transactions);
+      .subscribe((transactions) => {
+        this.transactions = transactions;
+        this.filteredTransactions = this.transactions;
+        this.sortTransactions('date');
+      });
   }
 
 }

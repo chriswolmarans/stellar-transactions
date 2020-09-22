@@ -8,12 +8,14 @@ import { InMemoryDataService } from './services/in-memory-data.service';
 import { AppComponent } from './app.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { TransferTransactionComponent } from './components/transfer-transaction/transfer-transaction.component';
+import { DecimalValidationDirective } from './directives/decimal-validation-directive.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     TransactionsComponent,
     TransferTransactionComponent,
+    DecimalValidationDirective,
   ],
   imports: [
     BrowserModule,

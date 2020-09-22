@@ -31,7 +31,17 @@
             id="amount"
             type="number"
             class="w-full form-input custom-form-input"
+            appDecimalValidation
+            decimals="2"
           >
+          <span *ngIf="f.amount.touched && f.amount.invalid" class="text-red-600">
+            <span *ngIf="f.amount.errors.required">Amount is required.</span>
+            <span
+              *ngIf="f.amount.errors.minlength"
+            >
+              Only numeric values allowed: 345 | 345.22.
+            </span>
+          </span>
         </label>
         <button
           type="submit"

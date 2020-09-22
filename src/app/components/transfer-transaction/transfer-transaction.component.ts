@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Transaction} from '../../models/transaction';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {DecimalValidationDirective} from '../../directives/decimal-validation-directive.directive';
 
 @Component({
   selector: 'app-transfer-transaction',

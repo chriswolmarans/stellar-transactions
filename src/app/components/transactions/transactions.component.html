@@ -36,9 +36,19 @@
             </div>
           </div>
         </div>
-        <ul class="transaction-list">
-          <li *ngFor="let transaction of transactions">
-            {{transaction.date}} - {{transaction.beneficiary}} - {{transaction.type}} - {{transaction.amount}}
+        <ul class="transaction-list border-solid border border-gray-500 m-4 divide-y divide-gray-300">
+          <li *ngFor="let transaction of transactions"
+              class="flex">
+            <div class="w-1/5 text-center px-4 py-2 m-2">
+              {{transaction.date | date: 'MMM d'}}
+            </div>
+            <div class="w-3/5 px-4 py-0 m-2 flex flex-col">
+              {{transaction.beneficiary}}
+              <span>{{transaction.type}}</span>
+            </div>
+            <div class="w-1/5 text-right px-4 py-2 m-2">
+              {{transaction.amount}}
+            </div>
           </li>
         </ul>
       </div>

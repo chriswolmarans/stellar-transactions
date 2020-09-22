@@ -1,0 +1,45 @@
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="transaction-card">
+      <div class="transaction-card-heading">Make a Transfer</div>
+      <div class="px-6 py-4">
+        <label class="block mb-4">
+          <span class="form-label">From Account</span>
+          <input
+            formControlName="account"
+            id="account"
+            type="text"
+            class="w-full form-input custom-form-input"
+            placeholder="Free Checking(4692) - {{this.accountTotal}}"
+          >
+        </label>
+        <label class="block mb-4">
+          <span class="form-label">To Account</span>
+          <input
+            formControlName="beneficiary"
+            id="beneficiary"
+            type="text"
+            class="w-full form-input custom-form-input"
+            placeholder="Merchant Name"
+          >
+        </label>
+        <label class="block mb-8">
+          <span class="form-label">Amount</span>
+          <input
+            formControlName="amount"
+            placeholder="0.00"
+            id="amount"
+            type="number"
+            class="w-full form-input custom-form-input"
+          >
+        </label>
+        <button
+          type="submit"
+          [disabled]="!form.valid"
+          class="btn-default float-right mb-3">
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+

@@ -12,15 +12,6 @@ export class TransactionsComponent implements OnInit {
   filteredTransactions: Transaction[];
   sortType: string;
   sortReverse = false;
-  // temp placeholder
-  transaction: Transaction = {
-    account: 'Free Checking(4692)',
-    amount: 845.42,
-    beneficiary: 'LA Kings',
-    date: Date.now(),
-    id: Date.now() + Math.random(),
-    type: 'Online Transfer'
-  };
 
   constructor(private transactionService: TransactionService) {
   }

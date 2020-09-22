@@ -18,8 +18,11 @@
         </div>
         <div class="p-4 flex">
           <label class="inline-flex w-full">
-            <input type="text" class="form-input custom-form-input w-full mt-0 pb-0" placeholder="Search by typing...">
-            <button class="px-2 py-1 mt-2">x</button>
+            <input
+              type="text" [(ngModel)]="searchTerms"
+              class="form-input custom-form-input w-full mt-0 pb-0"
+              placeholder="Search by typing...">
+            <button (click)="clearSearchTerm()" class="px-2 py-1 mt-2">x</button>
           </label>
           <div class="inline-flex w-full pt-1">
             <span class="mx-5 mt-3 whitespace-no-wrap font-bold">Sort by:</span>
@@ -37,7 +40,7 @@
           </div>
         </div>
         <ul class="transaction-list border-solid border border-gray-500 m-4 divide-y divide-gray-300">
-          <li *ngFor="let transaction of transactions"
+          <li *ngFor="let transaction of transactions | appFilter: searchTerms"
               class="flex">
             <div class="w-1/5 text-center px-4 py-2 m-2">
               {{transaction.date | date: 'MMM d'}}

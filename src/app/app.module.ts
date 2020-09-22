@@ -7,11 +7,13 @@ import { InMemoryDataService } from './services/in-memory-data.service';
 
 import { AppComponent } from './app.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TransactionsComponent
+    TransactionsComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,7 @@ import {TransactionService} from '../../services/transaction.service';
 })
 export class TransactionsComponent implements OnInit {
   transactions: Transaction[];
+  searchTerms = '';
   // temp placeholder
   transaction: Transaction = {
     account: 'Free Checking(4692)',
@@ -21,9 +22,12 @@ export class TransactionsComponent implements OnInit {
 
   constructor(private transactionService: TransactionService) {
   }
-
   ngOnInit(): void {
     this.getTransactions();
+  }
+
+  clearSearchTerm(): void {
+    this.searchTerms = '';
   }
 
   getTransactions(): void {

@@ -28,6 +28,7 @@ export class TransferTransactionComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       this.add(this.form.value);
+      this.saveDataToLocalStorage(this.form.value);
       this.form.reset();
       this.createFormControls();
       this.createForm();
@@ -67,6 +68,18 @@ export class TransferTransactionComponent implements OnInit {
       id: this.id,
       type: this.type,
     });
+  }
+
+  saveDataToLocalStorage(data) {
+    let a = [];
+    // Parse the serialized data back into an array of objects
+    a = JSON.parse(localStorage.getItem('transactions')) || [];
+    // Push the new data (whether it be an object or anything else) onto the array
+    a.push(data);
+    // Alert the array value
+    console.log(a);  // Should be something like [Object array]
+    // Re-serialize the array back into a string and store it in localStorage
+    localStorage.setItem('transactions', JSON.stringify(a));
   }
 
 }

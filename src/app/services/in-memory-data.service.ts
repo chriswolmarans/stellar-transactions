@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { InMemoryDbService } from 'angular-in-memory-web-api';
+import {Injectable} from '@angular/core';
+import {InMemoryDbService} from 'angular-in-memory-web-api';
 import {Transaction} from '../models/transaction';
 
 @Injectable({
@@ -7,6 +7,17 @@ import {Transaction} from '../models/transaction';
 })
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
+    let localTransactions = [];
+    if (localStorage.getItem('transactions')) {
+      localTransactions = JSON.parse(localStorage.getItem('transactions'));
+      if (localTransactions[0] === null) {
+        localTransactions.shift();
+      }
+    } else {
+      const a = [];
+      a.push(JSON.parse(localStorage.getItem('transactions')));
+      localStorage.setItem('transactions', JSON.stringify(a));
+    }
     const transactions = [
       {
         account: 'Free Checking(4692)',
@@ -48,9 +59,10 @@ export class InMemoryDataService implements InMemoryDbService {
         id: Date.now() + Math.random() + 5,
         type: 'Card Payment'
       },
-    ];
+    ].concat(localTransactions);
     return {transactions};
   }
+
   genId(transactions: Transaction[]): number {
     return transactions.length > 0 ? Math.max(...transactions.map(transaction => transaction.id)) + 1 : 11;
   }

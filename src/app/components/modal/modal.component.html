@@ -1,0 +1,34 @@
+<ng-container *ngIf="display$ | async as display">
+  <section
+    [class.open]="display === 'open'"
+  (click)="close()">
+  <div (click)="$event.stopPropagation()" *ngIf="showConfirmation$ | async as showConfirmation">
+    <div *ngIf="showConfirmation" class="transaction-card">
+      <div class="transaction-card-heading">Confirm Transfer</div>
+      <div class="px-6 py-4">
+        <label class="block mb-4">
+          <span class="form-label uppercase">Confirm Transfer of</span>
+          <span class="p-2 block">{{modalData$.amount | currency}}</span>
+        </label>
+        <label class="block mb-4">
+          <span class="form-label uppercase">From Account</span>
+          <span class="p-2 block">{{modalData$.account}}</span>
+        </label>
+        <label class="block mb-4">
+          <span class="form-label uppercase">To Account</span>
+          <span class="p-2 block text-lg font-black">{{modalData$.beneficiary}}</span>
+        </label>
+        <button (click)="close()" class="btn-default cancel">
+          Cancel
+        </button>
+        <button (click)="confirm()" class="btn-default">
+          Submit
+        </button>
+      </div>
+    </div>
+    <ng-template *ngIf="!showConfirmation">
+      <app-transfer-transaction *ngIf="!showConfirmation"></app-transfer-transaction>
+    </ng-template>
+  </div>
+  </section>
+</ng-container>

@@ -58,7 +58,8 @@
         </ul>
       </div>
     </div>
-    <div class="w-full md:w-full lg:w-1/3 lg:p-4 p-3 invisible lg:visible">
+    <div [ngClass]="{'visible': showConfirmation$}"
+      class="w-full md:w-full lg:w-1/3 lg:p-4 p-3 invisible lg:visible">
       <app-transfer-transaction></app-transfer-transaction>
     </div>
   </div>

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Transaction} from '../../models/transaction';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {TransactionService} from '../../services/transaction.service';
+import {ModalService} from '../../services/modal.service';
+import {AccountService} from '../../services/account.service';
 
 @Component({
   selector: 'app-transfer-transaction',
@@ -9,10 +10,7 @@ import {TransactionService} from '../../services/transaction.service';
   styleUrls: ['./transfer-transaction.component.scss']
 })
 export class TransferTransactionComponent implements OnInit {
-
-  // temp placeholder - get from service
-  accountTotal = 5824.76;
-
+  accountBalance;
   form: FormGroup;
   account: FormControl;
   amount: FormControl;
@@ -27,35 +25,39 @@ export class TransferTransactionComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      this.add(this.form.value);
-      this.saveDataToLocalStorage(this.form.value);
+      this.accountService.holdFormData(this.form.getRawValue());
+      this.open(this.form.getRawValue());
+      this.accountBalance = this.accountService.getAccountTotal();
       this.form.reset();
       this.createFormControls();
       this.createForm();
     }
   }
 
-  add(transaction: Transaction): void {
-    this.transactionService.addTransaction(transaction).subscribe();
+  open(data) {
+    this.modalService.open(true, data);
   }
 
-  constructor(private transactionService: TransactionService) {
+  constructor(private transactionService: TransactionService,
+              private modalService: ModalService,
+              private accountService: AccountService) {
   }
 
   ngOnInit(): void {
+    this.accountBalance = this.accountService.getAccountTotal();
     this.createFormControls();
     this.createForm();
   }
 
   createFormControls() {
     this.account = new FormControl({
-      value: `Free Checking(4692) ${this.accountTotal}`,
+      value: `Free Checking(4692) - ${this.accountBalance}`,
       disabled: true,
     });
     this.amount = new FormControl('', Validators.required);
     this.beneficiary = new FormControl('', [Validators.required, Validators.minLength(2)]);
     this.date = new FormControl(Date.now(), Validators.required);
-    this.id = new FormControl(`${Date.now()}${this.accountTotal}`, Validators.required);
+    this.id = new FormControl(`${Date.now()}`, Validators.required);
     this.type = new FormControl('Online Transfer', Validators.required);
   }
 
@@ -68,18 +70,6 @@ export class TransferTransactionComponent implements OnInit {
       id: this.id,
       type: this.type,
     });
-  }
-
-  saveDataToLocalStorage(data) {
-    let a = [];
-    // Parse the serialized data back into an array of objects
-    a = JSON.parse(localStorage.getItem('transactions')) || [];
-    // Push the new data (whether it be an object or anything else) onto the array
-    a.push(data);
-    // Alert the array value
-    console.log(a);  // Should be something like [Object array]
-    // Re-serialize the array back into a string and store it in localStorage
-    localStorage.setItem('transactions', JSON.stringify(a));
   }
 
 }

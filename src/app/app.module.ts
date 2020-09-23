@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { TransferTransactionComponent } from './components/transfer-transaction/transfer-transaction.component';
 import { DecimalValidationDirective } from './directives/decimal-validation-directive.directive';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { DecimalValidationDirective } from './directives/decimal-validation-dire
     TransactionsComponent,
     TransferTransactionComponent,
     DecimalValidationDirective,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,

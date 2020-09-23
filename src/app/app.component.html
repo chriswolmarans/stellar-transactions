@@ -1,7 +1,8 @@
 <nav class="header">
   <h1 class="ml-0 md:ml-6 lg:ml-10 xl:ml-16">Stellar Transactions</h1>
   <div class="block visible md:visible lg:invisible xl:invisible">
-    <button class="btn-default px-2 sm:px-2 md:px-4">+</button>
+    <button (click)="open()" class="btn-default px-2 sm:px-2 md:px-4">+</button>
   </div>
 </nav>
 <app-transactions></app-transactions>
+<app-modal></app-modal>

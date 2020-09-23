@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Transaction} from '../../models/transaction';
 import {TransactionService} from '../../services/transaction.service';
 import {startWith} from 'rxjs/operators';
+import {ModalService} from '../../services/modal.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-transactions',
@@ -13,12 +15,14 @@ export class TransactionsComponent implements OnInit {
   filteredTransactions$: Transaction[];
   sortType: string;
   sortReverse = false;
+  showConfirmation$: Observable<boolean>;
 
-  constructor(private transactionService: TransactionService) {
+  constructor(private transactionService: TransactionService, private modalService: ModalService) {
   }
 
   ngOnInit(): void {
     this.getTransactions();
+    this.showConfirmation$ = this.modalService.watchConfirmation();
   }
 
   sortTransactions(property) {

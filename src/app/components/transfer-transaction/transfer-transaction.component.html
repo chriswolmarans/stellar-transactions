@@ -1,5 +1,5 @@
 
-  <form [formGroup]="form" (ngSubmit)="submit()">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="transaction-card">
       <div class="transaction-card-heading">Make a Transfer</div>
       <div class="px-6 py-4">
@@ -22,6 +22,14 @@
             class="w-full form-input custom-form-input"
             placeholder="Merchant Name"
           >
+          <span *ngIf="f.beneficiary.touched && f.beneficiary.invalid" class="text-red-600">
+            <span *ngIf="f.beneficiary.errors.required">Beneficiary is required.</span>
+            <span
+              *ngIf="f.beneficiary.errors.minlength"
+            >
+              Minimum of 2 characters.
+            </span>
+          </span>
         </label>
         <label class="block mb-8">
           <span class="form-label">Amount</span>
@@ -46,6 +54,7 @@
         <button
           type="submit"
           [disabled]="!form.valid"
+          [ngClass]="{'disabled' : !form.valid}"
           class="btn-default float-right mb-3">
           Submit
         </button>

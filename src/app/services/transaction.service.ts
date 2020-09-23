@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {Transaction} from '../models/transaction';
 
@@ -14,13 +14,30 @@ export class TransactionService {
 
   private transactionsUrl = 'api/transactions';
 
+  private filterBySource = new Subject<any>();
+  filterByObservable = this.filterBySource.asObservable();
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+
   /** GET Transactions from the server */
   getTransactions(): Observable<Transaction[]> {
     return this.http.get<Transaction[]>(this.transactionsUrl)
-      .pipe(
-        tap(_ => console.log('fetched Transactions')),
+      .pipe(tap(_ => console.log('fetched Transactions')),
         catchError(this.handleError<Transaction[]>('getTransactions', []))
       );
+  }
+
+  /** POST: add a new Transaction to the server */
+  addTransaction(transaction: Transaction): Observable<Transaction> {
+    return this.http.post<Transaction>(this.transactionsUrl, transaction, this.httpOptions).pipe(
+      tap((newTransaction: Transaction) => {
+        this.filterBySource.next(newTransaction);
+        console.log(`added transaction w/ id=${newTransaction.id}`);
+      }),
+      catchError(this.handleError<Transaction>('addTransaction'))
+    );
   }
 
   /**

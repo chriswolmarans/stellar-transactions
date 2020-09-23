@@ -42,7 +42,7 @@
           </div>
         </div>
         <ul class="transaction-list border-solid border border-gray-500 m-4 divide-y divide-gray-300">
-          <li *ngFor="let transaction of filteredTransactions"
+          <li *ngFor="let transaction of filteredTransactions$"
               class="flex">
             <div class="w-1/5 text-center px-4 py-2 m-2">
               {{transaction.date | date: 'MMM d'}}

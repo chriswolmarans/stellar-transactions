@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Transaction} from '../../models/transaction';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {DecimalValidationDirective} from '../../directives/decimal-validation-directive.directive';
+import {TransactionService} from '../../services/transaction.service';
 
 @Component({
   selector: 'app-transfer-transaction',
@@ -13,33 +13,60 @@ export class TransferTransactionComponent implements OnInit {
   // temp placeholder - get from service
   accountTotal = 5824.76;
 
-  form = new FormGroup({
-    account: new FormControl({
-      value: '',
-      disabled: true,
-    }),
-    amount: new FormControl(Validators.required),
-    beneficiary: new FormControl('', [Validators.required, Validators.minLength(2)]),
-    date: new FormControl(Date.now(), Validators.required),
-    id: new FormControl(Date.now() + Math.random(), Validators.required),
-    type: new FormControl('Online Transfer', Validators.required)
-  });
+  form: FormGroup;
+  account: FormControl;
+  amount: FormControl;
+  beneficiary: FormControl;
+  date: FormControl;
+  id: FormControl;
+  type: FormControl;
 
   get f() {
     return this.form.controls;
   }
 
-  submit() {
-    this.form.patchValue({
-      account: 'Free Checking(4692)',
-    });
-    console.log(this.form.value);
+  onSubmit() {
+    if (this.form.valid) {
+      this.add(this.form.value);
+      this.form.reset();
+      this.createFormControls();
+      this.createForm();
+    }
   }
 
-  constructor() {
+  add(transaction: Transaction): void {
+    this.transactionService.addTransaction(transaction).subscribe();
+  }
+
+  constructor(private transactionService: TransactionService) {
   }
 
   ngOnInit(): void {
+    this.createFormControls();
+    this.createForm();
+  }
+
+  createFormControls() {
+    this.account = new FormControl({
+      value: `Free Checking(4692) ${this.accountTotal}`,
+      disabled: true,
+    });
+    this.amount = new FormControl('', Validators.required);
+    this.beneficiary = new FormControl('', [Validators.required, Validators.minLength(2)]);
+    this.date = new FormControl(Date.now(), Validators.required);
+    this.id = new FormControl(`${Date.now()}${this.accountTotal}`, Validators.required);
+    this.type = new FormControl('Online Transfer', Validators.required);
+  }
+
+  createForm() {
+    this.form = new FormGroup({
+      account: this.account,
+      amount: this.amount,
+      beneficiary: this.beneficiary,
+      date: this.date,
+      id: this.id,
+      type: this.type,
+    });
   }
 
 }

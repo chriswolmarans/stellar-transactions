@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Transaction} from '../../models/transaction';
 import {TransactionService} from '../../services/transaction.service';
+import {startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'app-transactions',
@@ -9,7 +10,7 @@ import {TransactionService} from '../../services/transaction.service';
 })
 export class TransactionsComponent implements OnInit {
   transactions: Transaction[];
-  filteredTransactions: Transaction[];
+  filteredTransactions$: Transaction[];
   sortType: string;
   sortReverse = false;
 
@@ -24,7 +25,7 @@ export class TransactionsComponent implements OnInit {
     this.sortType = property;
     this.sortReverse = !this.sortReverse;
     this.transactions = this.transactions || [];
-    this.filteredTransactions.sort(this.dynamicSort(property));
+    this.filteredTransactions$.sort(this.dynamicSort(property));
   }
 
   dynamicSort(property) {
@@ -44,11 +45,11 @@ export class TransactionsComponent implements OnInit {
 
   filterTransactions(searchTerms: string) {
     if (!searchTerms) {
-      this.filteredTransactions = this.transactions;
+      this.filteredTransactions$ = this.transactions;
       this.sortTransactions('date');
     }
     searchTerms = searchTerms.trim().toLocaleLowerCase();
-    this.filteredTransactions = this.transactions
+    this.filteredTransactions$ = this.transactions
       .filter((item) => {
         // get short month e.g Nov with date[1]
         const date = new Date(item.date).toString().split(' ');
@@ -64,8 +65,18 @@ export class TransactionsComponent implements OnInit {
     this.transactionService.getTransactions()
       .subscribe((transactions) => {
         this.transactions = transactions;
-        this.filteredTransactions = this.transactions;
+        this.filteredTransactions$ = this.transactions;
         this.sortTransactions('date');
+      });
+    // TODO: update filtering to happen here instead,
+    //  for now update view with new data
+    this.transactionService.filterByObservable.pipe(
+      startWith(this.transactionService.getTransactions))
+      .subscribe((data) => {
+        if (data.length < 1) {
+          return;
+        }
+        this.filteredTransactions$.push(data);
       });
   }
 
